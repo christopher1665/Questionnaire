@@ -3,11 +3,13 @@
 #include <vector>
 #include <fstream>
 using namespace std;
+
 int main()
 {
     vector<string> stringList;
     vector<string> stringInput;
     string List, Input;
+
     ifstream myfile("Questions.txt");
     if (myfile.is_open())
     {
@@ -17,17 +19,26 @@ int main()
         }
         myfile.close();
     }
-    for (int i = 1; i < stringList.size(); i++)
+    else 
     {
-        cout << "Question " << i++ << " ";
-        cout << stringList[--i] << "?" << endl;
-        getline(cin, Input);
-        stringInput.push_back(Input);
+        cerr << "Unable to open Questions.txt" << endl;
+        return 1;
     }
-    cout << endl;
-    for (int i = 0; i < stringInput.size(); i++)
+
+    for (size_t i = 0; i < stringList.size(); i++)
     {
-        cout << "Response for question " << ++i << " ";
-        cout << stringInput[--i] << endl;
+        cout << "Question " << (i + 1) << ": " << stringList[i] << "?" << endl;
+        
+        if (getline(cin, Input)) 
+        {
+            stringInput.push_back(Input);
+        }
     }
+
+    cout << "\n--- Summary of Responses ---" << endl;
+    for (size_t i = 0; i < stringInput.size(); i++)
+    {
+        cout << "Response for question " << (i + 1) << ": " << stringInput[i] << endl;
+    }
+    return 0;
 }
